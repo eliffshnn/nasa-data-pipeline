@@ -1,0 +1,4 @@
+source_id,resolved_source_id,decided_by,decided_at,note
+3430309,2614134,Burak Avşar,2026-11-06,"(2008 TC4) and 614134 (2008 TC4): same provisional designation, H 21.65 both, same approach 2026-10-17T04:02Z, same miss distance; both only in feed file 2026-10-17T13:26:06Z. Unnumbered id replaced by the numbered one"
+3801936,2678976,Burak Avşar,2026-11-06,"(2018 EH4) and 678976 (2018 EH4): same provisional designation, H 21.67/21.68, same approach 2026-10-14T05:49Z, miss distance differs by 80 km (0.001%); both only in the feed file"
+54051300,2679786,Burak Avşar,2026-11-06,"(2020 QG3) and 679786 (2020 QG3): same provisional designation, H 21.22 both, same approach 2026-10-16T03:34Z, miss distance differs by 8 km; both only in the feed file"

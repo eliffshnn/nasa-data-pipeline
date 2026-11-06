@@ -130,6 +130,9 @@ def load(db_path=DEFAULT_DB, raw_dir=RAW):
     stats = {"cleaned": 0}
 
     ast_best, orbit_best, ev_best, quarantine = {}, {}, {}, []
+    # feed kayıtlarında 'designation' alanı hiç yok; daha yeni bir feed kaydı, eski browse kaydındaki
+    # değeri silmesin diye bu alan ayrıca seçilir: alanı *taşıyan* en yeni kayıt kazanır.
+    des_best = {}
 
     for ra, ast in items:
         if not isinstance(ast, dict):
@@ -142,6 +145,8 @@ def load(db_path=DEFAULT_DB, raw_dir=RAW):
         sid = str(sid)
         if sid not in ast_best or ra > ast_best[sid][0]:
             ast_best[sid] = (ra, ast)
+        if "designation" in ast and (sid not in des_best or ra > des_best[sid][0]):
+            des_best[sid] = (ra, ast["designation"])
         od = ast.get("orbital_data")
         if od and (sid not in orbit_best or ra > orbit_best[sid][0]):
             orbit_best[sid] = (ra, od)
@@ -180,7 +185,7 @@ def load(db_path=DEFAULT_DB, raw_dir=RAW):
                        diameter_max_km = excluded.diameter_max_km,
                        retrieved_at = excluded.retrieved_at
                    WHERE excluded.retrieved_at >= asteroids.retrieved_at""",
-                {"sid": sid, "name": a.get("name"), "des": to_text(a.get("designation")),
+                {"sid": sid, "name": a.get("name"), "des": to_text(des_best.get(sid, (None, None))[1]),
                  "h": to_float(a.get("absolute_magnitude_h"), stats),
                  "haz": to_bool(a.get("is_potentially_hazardous_asteroid"), stats),
                  "sentry": to_bool(a.get("is_sentry_object"), stats),
