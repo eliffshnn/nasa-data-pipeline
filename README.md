@@ -891,7 +891,7 @@ The STOP self-test deliberately introduces each of the three critical failure ty
 
 ### Known data-quality warnings
 
-**Missing designation values:** 39 of 5,033 asteroid records (0.77%) have no designation value in the source. These values are retained as missing and flagged as `missing_not_in_source`; they are not inferred or fabricated.
+**Missing designation values:** 33 of 5,033 asteroid records (0.66%) have no designation value in the source. These values are retained as missing and flagged as `missing_not_in_source`; they are not inferred or fabricated. (An earlier run showed 39: the M2 loader lost 6 designations, which is fixed in `src/load.py`.)
 
 **Approach coverage:** 4,157 asteroids are labelled `earth_approaches`, 305 are labelled `no_approach_in_source`, and 571 are labelled `no_earth_approach`. These categories distinguish missing source coverage from the absence of an Earth close-approach record.
 
@@ -919,7 +919,7 @@ python src/validate.py
 python src/validate.py --self-test
 ```
 
-The validation output and the two cleaning-run outputs are retained as M3 execution evidence. The SQLite database remains a generated local artifact and should be submitted separately if required by the course; it should not be committed unless the project instructions explicitly require it.
+The outputs are retained as M3 execution evidence: `m3_clean_run1.txt`, `m3_clean_run2.txt`, `m3_validation.txt`, `m3_validation_selftest.txt` (and `m2_checks.txt` for M2). Every cleaning decision, flag, constant and mapping is documented in [`docs/cleaning_report.md`](docs/cleaning_report.md). The SQLite database remains a generated local artifact and should be submitted separately if required by the course; it should not be committed unless the project instructions explicitly require it.
 
 ---
 
