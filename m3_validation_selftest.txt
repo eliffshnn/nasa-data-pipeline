@@ -1,0 +1,162 @@
+﻿
+============================================================
+M3 VALIDATOR STOP SELF-TEST
+============================================================
+
+Testing: Row count STOP
+
+============================================================
+NASA ASTEROID DATA PIPELINE - M3 VALIDATION
+============================================================
+  asteroids: 5,033 | asteroid_clean: 5,032
+  orbits: 5,000 | orbit_clean: 5,000
+  approaches: 150,936 | approach_clean: 150,936
+[STOP] Row count equality: asteroids=5033, asteroid_clean=5032
+  asteroid_clean: 0 impossible values
+  orbit_clean: 0 impossible values
+  approach_clean: 0 impossible values
+[PASS] Impossible values: No impossible values detected
+[PASS] Foreign key integrity: foreign_key_check returned no violations
+  Missingness ratios:
+    asteroid_clean.designation: 33/5,032 (0.66%)
+    asteroid_clean.absolute_magnitude_h: 0/5,032 (0.00%)
+    asteroid_clean.is_potentially_hazardous: 0/5,032 (0.00%)
+    orbit_clean.eccentricity: 0/5,000 (0.00%)
+    orbit_clean.inclination: 0/5,000 (0.00%)
+    orbit_clean.semi_major_axis: 0/5,000 (0.00%)
+    orbit_clean.minimum_orbit_intersection: 0/5,000 (0.00%)
+    orbit_clean.orbit_uncertainty: 0/5,000 (0.00%)
+    approach_clean.orbiting_body: 0/150,936 (0.00%)
+    approach_clean.miss_distance_km: 0/150,936 (0.00%)
+    approach_clean.relative_velocity_km_s: 0/150,936 (0.00%)
+[WARN] Missingness: Missing values are reported for data-quality review
+  Approach coverage:
+    earth_approaches: 4,156
+    no_approach_in_source: 305
+    no_earth_approach: 571
+  Approach timing:
+    past: 66,662
+    predicted: 84,274
+  Latest approach date (UTC): 2200-12-31
+[WARN] Coverage and freshness: Coverage, timing, and latest approach date reported for review
+  Unmapped body names: 0
+  Standardised body names: 16,125
+  Resolved duplicate identities: 3
+[PASS] Mapping completeness: All approach body names are mapped
+
+------------------------------------------------------------
+VALIDATION SUMMARY
+------------------------------------------------------------
+PASS: 3
+WARN: 2
+STOP: 1
+
+STATUS: STOP
+[PASS] Row count STOP: Validator correctly detected STOP
+
+Testing: Impossible value STOP
+
+============================================================
+NASA ASTEROID DATA PIPELINE - M3 VALIDATION
+============================================================
+  asteroids: 5,033 | asteroid_clean: 5,033
+  orbits: 5,000 | orbit_clean: 5,000
+  approaches: 150,936 | approach_clean: 150,936
+[PASS] Row count equality: All raw and clean counts match
+  asteroid_clean: 0 impossible values
+  orbit_clean: 1 impossible values
+  approach_clean: 0 impossible values
+[STOP] Impossible values: 1 impossible values detected
+[PASS] Foreign key integrity: foreign_key_check returned no violations
+  Missingness ratios:
+    asteroid_clean.designation: 33/5,033 (0.66%)
+    asteroid_clean.absolute_magnitude_h: 0/5,033 (0.00%)
+    asteroid_clean.is_potentially_hazardous: 0/5,033 (0.00%)
+    orbit_clean.eccentricity: 0/5,000 (0.00%)
+    orbit_clean.inclination: 0/5,000 (0.00%)
+    orbit_clean.semi_major_axis: 0/5,000 (0.00%)
+    orbit_clean.minimum_orbit_intersection: 0/5,000 (0.00%)
+    orbit_clean.orbit_uncertainty: 0/5,000 (0.00%)
+    approach_clean.orbiting_body: 0/150,936 (0.00%)
+    approach_clean.miss_distance_km: 0/150,936 (0.00%)
+    approach_clean.relative_velocity_km_s: 0/150,936 (0.00%)
+[WARN] Missingness: Missing values are reported for data-quality review
+  Approach coverage:
+    earth_approaches: 4,157
+    no_approach_in_source: 305
+    no_earth_approach: 571
+  Approach timing:
+    past: 66,662
+    predicted: 84,274
+  Latest approach date (UTC): 2200-12-31
+[WARN] Coverage and freshness: Coverage, timing, and latest approach date reported for review
+  Unmapped body names: 0
+  Standardised body names: 16,125
+  Resolved duplicate identities: 3
+[PASS] Mapping completeness: All approach body names are mapped
+
+------------------------------------------------------------
+VALIDATION SUMMARY
+------------------------------------------------------------
+PASS: 3
+WARN: 2
+STOP: 1
+
+STATUS: STOP
+[PASS] Impossible value STOP: Validator correctly detected STOP
+
+Testing: Foreign key STOP
+
+============================================================
+NASA ASTEROID DATA PIPELINE - M3 VALIDATION
+============================================================
+  asteroids: 5,033 | asteroid_clean: 5,033
+  orbits: 5,000 | orbit_clean: 5,000
+  approaches: 150,936 | approach_clean: 150,936
+[PASS] Row count equality: All raw and clean counts match
+  asteroid_clean: 0 impossible values
+  orbit_clean: 0 impossible values
+  approach_clean: 0 impossible values
+[PASS] Impossible values: No impossible values detected
+[STOP] Foreign key integrity: 1 foreign key violations
+  ('asteroid_clean', 1, 'asteroids', 0)
+  Missingness ratios:
+    asteroid_clean.designation: 33/5,033 (0.66%)
+    asteroid_clean.absolute_magnitude_h: 0/5,033 (0.00%)
+    asteroid_clean.is_potentially_hazardous: 0/5,033 (0.00%)
+    orbit_clean.eccentricity: 0/5,000 (0.00%)
+    orbit_clean.inclination: 0/5,000 (0.00%)
+    orbit_clean.semi_major_axis: 0/5,000 (0.00%)
+    orbit_clean.minimum_orbit_intersection: 0/5,000 (0.00%)
+    orbit_clean.orbit_uncertainty: 0/5,000 (0.00%)
+    approach_clean.orbiting_body: 0/150,936 (0.00%)
+    approach_clean.miss_distance_km: 0/150,936 (0.00%)
+    approach_clean.relative_velocity_km_s: 0/150,936 (0.00%)
+[WARN] Missingness: Missing values are reported for data-quality review
+  Approach coverage:
+    earth_approaches: 4,157
+    no_approach_in_source: 305
+    no_earth_approach: 571
+  Approach timing:
+    past: 66,662
+    predicted: 84,274
+  Latest approach date (UTC): 2200-12-31
+[WARN] Coverage and freshness: Coverage, timing, and latest approach date reported for review
+  Unmapped body names: 0
+  Standardised body names: 16,125
+  Resolved duplicate identities: 3
+[PASS] Mapping completeness: All approach body names are mapped
+
+------------------------------------------------------------
+VALIDATION SUMMARY
+------------------------------------------------------------
+PASS: 3
+WARN: 2
+STOP: 1
+
+STATUS: STOP
+[PASS] Foreign key STOP: Validator correctly detected STOP
+
+============================================================
+SELF-TEST RESULT: 3/3 passed
+============================================================
