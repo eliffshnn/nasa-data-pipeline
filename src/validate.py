@@ -22,23 +22,51 @@ def print_result(status, name, detail):
     print(f"[{status}] {name}: {detail}")
 
 
-def check_row_counts(connection):
-    pairs = [
-        ("asteroids", "asteroid_clean"),
-        ("orbits", "orbit_clean"),
-        ("approaches", "approach_clean"),
-    ]
+# Fixed SQL only: no table or column name is ever formatted into a statement.
+ROW_COUNT_SQL = [
+    ("asteroids", "SELECT COUNT(*) FROM asteroids",
+     "asteroid_clean", "SELECT COUNT(*) FROM asteroid_clean"),
+    ("orbits", "SELECT COUNT(*) FROM orbits",
+     "orbit_clean", "SELECT COUNT(*) FROM orbit_clean"),
+    ("approaches", "SELECT COUNT(*) FROM approaches",
+     "approach_clean", "SELECT COUNT(*) FROM approach_clean"),
+]
 
+# One fixed query per cleaned table: total rows, then NULL count per column (in the order of the names).
+MISSINGNESS_SQL = [
+    ("asteroid_clean",
+     ["designation", "absolute_magnitude_h", "is_potentially_hazardous"],
+     """SELECT COUNT(*),
+               SUM(designation IS NULL),
+               SUM(absolute_magnitude_h IS NULL),
+               SUM(is_potentially_hazardous IS NULL)
+        FROM asteroid_clean"""),
+    ("orbit_clean",
+     ["eccentricity", "inclination", "semi_major_axis",
+      "minimum_orbit_intersection", "orbit_uncertainty"],
+     """SELECT COUNT(*),
+               SUM(eccentricity IS NULL),
+               SUM(inclination IS NULL),
+               SUM(semi_major_axis IS NULL),
+               SUM(minimum_orbit_intersection IS NULL),
+               SUM(orbit_uncertainty IS NULL)
+        FROM orbit_clean"""),
+    ("approach_clean",
+     ["orbiting_body", "miss_distance_km", "relative_velocity_km_s"],
+     """SELECT COUNT(*),
+               SUM(orbiting_body IS NULL),
+               SUM(miss_distance_km IS NULL),
+               SUM(relative_velocity_km_s IS NULL)
+        FROM approach_clean"""),
+]
+
+
+def check_row_counts(connection):
     problems = []
 
-    for raw_table, clean_table in pairs:
-        raw_count = connection.execute(
-            f"SELECT COUNT(*) FROM {raw_table}"
-        ).fetchone()[0]
-
-        clean_count = connection.execute(
-            f"SELECT COUNT(*) FROM {clean_table}"
-        ).fetchone()[0]
+    for raw_table, raw_sql, clean_table, clean_sql in ROW_COUNT_SQL:
+        raw_count = connection.execute(raw_sql).fetchone()[0]
+        clean_count = connection.execute(clean_sql).fetchone()[0]
 
         print(
             f"  {raw_table}: {raw_count:,} | "
@@ -153,38 +181,13 @@ def check_foreign_keys(connection):
 
 
 def check_missingness(connection):
-    columns = {
-        "asteroid_clean": [
-            "designation",
-            "absolute_magnitude_h",
-            "is_potentially_hazardous",
-        ],
-        "orbit_clean": [
-            "eccentricity",
-            "inclination",
-            "semi_major_axis",
-            "minimum_orbit_intersection",
-            "orbit_uncertainty",
-        ],
-        "approach_clean": [
-            "orbiting_body",
-            "miss_distance_km",
-            "relative_velocity_km_s",
-        ],
-    }
-
     print("  Missingness ratios:")
 
-    for table, fields in columns.items():
-        total = connection.execute(
-            f"SELECT COUNT(*) FROM {table}"
-        ).fetchone()[0]
+    for table, fields, sql in MISSINGNESS_SQL:
+        total, *missing_counts = connection.execute(sql).fetchone()
 
-        for field in fields:
-            missing = connection.execute(
-                f"SELECT COUNT(*) FROM {table} WHERE {field} IS NULL"
-            ).fetchone()[0]
-
+        for field, missing in zip(fields, missing_counts):
+            missing = missing or 0  # SUM over an empty table is NULL
             ratio = missing / total if total else 0
 
             print(
