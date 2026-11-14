@@ -928,6 +928,25 @@ The outputs are retained as M3 execution evidence: `m3_clean_run1.txt`, `m3_clea
 
 ---
 
+## Exploration — M4
+
+![Hazardous asteroids pass closer in every orbit class, but within Apollos and Atens the gap is about half the overall one](figures/m4_fig8_gap_within_class.png)
+
+Potentially hazardous asteroids typically pass much closer to Earth than the others: the median closest approach is 13.1 against 40.2 lunar distances (n = 1,027 vs 3,127; difference −27.1 LD, 95% bootstrap CI −29.1 to −25.7, resampling asteroids). The gap is partly **by construction** (the label requires an orbit within 0.05 AU of Earth's) and partly **composition**: 84% of hazardous asteroids are Apollos against 50% of the others, and within Apollos and Atens the gap is about half as large (−14.6 and −12.3 LD), though it never reverses (exploratory). By another summary the groups are level: about 1.2% of each ever passes closer than the Moon, because the label is about size as well as orbit (exploratory). Coverage is unequal and tied to orbit size (smaller orbits have more listed approaches, Spearman −0.58), and NASA lists approaches only up to 0.2 or 0.5 AU; findings, intervals, the number of comparisons looked at and what we can't say are in [`docs/eda_report.md`](docs/eda_report.md).
+
+The exploration is [`notebooks/m4_eda.ipynb`](notebooks/m4_eda.ipynb) (committed with its outputs). It reads the database read-only, writes all eight figures to [`figures/`](figures/), and checks that the database file is unchanged. Reused queries are in [`sql/queries/`](sql/queries/), and helpers in [`src/explore.py`](src/explore.py).
+
+Reproduce everything from a fresh clone with landed raw data in `data/raw/`:
+
+```bash
+python src/load.py
+python src/clean.py
+python src/validate.py
+jupyter nbconvert --to notebook --execute --inplace notebooks/m4_eda.ipynb
+```
+
+---
+
 ## Team
 
 
@@ -960,3 +979,5 @@ The database contains 5,033 asteroids, 5,000 orbits, 150,936 close-approach reco
 
 
 **M3 — cleaned layer and quality report complete.** `src/clean.py` builds `asteroid_clean`, `orbit_clean` and `approach_clean` from the M2 tables (idempotent, atomic, M2 tables unchanged); `src/validate.py` reports 4 PASS, 2 WARN, 0 STOP, and each STOP check was made to fail once (3/3). See [`docs/cleaning_report.md`](docs/cleaning_report.md).
+
+**M4 — exploratory analysis complete.** See [`docs/eda_report.md`](docs/eda_report.md) and [`notebooks/m4_eda.ipynb`](notebooks/m4_eda.ipynb).
